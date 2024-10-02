@@ -1,4 +1,11 @@
-<div {{ attributes.defaults({class: 'max-w-sm p-6 bg-white border border-gray-400 rounded-lg shadow justify-self-center'}) }}>
+<div {{ attributes.defaults({class: 'max-w-sm p-6 bg-white border border-gray-400 rounded-lg shadow justify-self-center relative'}) }}>
+    {% if this.person.id %}
+        <button class="absolute right-6 top-2"
+                data-action="live#action"
+                data-live-action-param="removeBookmark">
+            X
+        </button>
+    {% endif %}
     <img class="inline-block shrink-0 size-[62px] rounded-full" src="{{ person.avatar }}" alt="Avatar">
     <h2 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ this.personFullName|title }}</h2>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{{ person.bio }}</p>

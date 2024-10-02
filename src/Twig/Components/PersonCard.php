@@ -3,12 +3,21 @@
 namespace App\Twig\Components;
 
 use App\Entity\Person;
-use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 
-#[AsTwigComponent(template: 'components/person_card.html.twig')]
+#[AsLiveComponent(template: 'components/person_card.html.twig')]
 final class PersonCard
 {
+    use DefaultActionTrait;
+    use ComponentToolsTrait;
+
+    #[LiveProp(writable: ['isBookmarked'])]
     public ?Person $person = null;
 
     #[PostMount]
@@ -28,5 +37,15 @@ final class PersonCard
     public function getPersonFullName(): string
     {
         return sprintf('%s %s', $this->person->firstName, $this->person->lastName);
+    }
+
+    #[LiveAction]
+    public function removeBookmark(EntityManagerInterface $entityManager): void
+    {
+        $this->person->isBookmarked = false;
+        $entityManager->persist($this->person);
+        $entityManager->flush();
+
+        $this->emit('bookmarkRemoved', componentName: 'PersonCardList');
     }
 }

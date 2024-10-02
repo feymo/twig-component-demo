@@ -4,6 +4,8 @@
         {% for person in this.bookmarkedPersons %}
             <twig:PersonCard :person="person" />
         {% endfor %}
-        <twig:PersonCard />
+        {% for i in this.bookmarkedPersons|length..3   %}
+            <twig:PersonCard />
+        {% endfor %}
     </section>
 </div>

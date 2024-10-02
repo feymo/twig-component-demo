@@ -3,17 +3,25 @@
 namespace App\Twig\Components;
 
 use App\Repository\PersonRepository;
-use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveListener;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
 
-#[AsTwigComponent(template: 'components/person_card_list.html.twig')]
+#[AsLiveComponent(template: 'components/person_card_list.html.twig')]
 final class PersonCardList
 {
+    use DefaultActionTrait;
+
+    public array $bookmarkedPersons;
+
     public function __construct(private readonly PersonRepository $personRepository)
     {
+        $this->bookmarkedPersons = $this->personRepository->findBy(['isBookmarked' => true]);
     }
 
-    public function getBookmarkedPersons(): array
+    #[LiveListener('bookmarkRemoved')]
+    public function updateBookmarkedPersons(): void
     {
-        return $this->personRepository->findBy(['isBookmarked' => true]);
+        $this->bookmarkedPersons = $this->personRepository->findBy(['isBookmarked' => true]);
     }
 }
