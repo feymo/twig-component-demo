@@ -1,0 +1,9 @@
+<div {{ attributes }}>
+    <h1 class="py-8 text-4xl text-center">Contacts Favoris</h1>
+    <section class="grid grid-cols-2 gap-6">
+        {% for person in this.bookmarkedPersons %}
+            <twig:PersonCard :person="person" />
+        {% endfor %}
+        <twig:PersonCard />
+    </section>
+</div>
