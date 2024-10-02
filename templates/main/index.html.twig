@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main class="h-screen mx-[30%]">
+        <h1 class="py-8 text-4xl text-center">Contacts Favoris</h1>
+        <section class="grid grid-cols-2 gap-6">
+            {% for person in persons %}
+                <div class="max-w-sm p-6 bg-white border border-gray-400 rounded-lg shadow justify-self-center">
+                    <img class="inline-block shrink-0 size-[62px] rounded-full" src="{{ person.avatar }}" alt="Avatar">
+                    <h2 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ person.fullName|title }}</h2>
+                    <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{{ person.bio }}</p>
+                    <a href="{{ person.profileLink }}" class="inline-flex font-medium items-center text-bludevon hover:underline">
+                        Voir le profil complet
+                    </a>
+                </div>
+            {% endfor %}
+            <div class="max-w-sm p-6 bg-white border border-gray-400 rounded-lg shadow justify-self-center">
+                <img class="inline-block shrink-0 size-[62px] rounded-full" src="https://static-00.iconduck.com/assets.00/avatar-default-icon-2048x2048-h6w375ur.png" alt="Avatar">
+                <h2 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">John Doe</h2>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <a href="#" class="inline-flex font-medium items-center text-bludevon hover:underline">
+                    Voir le profil complet
+                </a>
+            </div>
+        </section>
+    </main>
+{% endblock %}
